@@ -20,7 +20,7 @@
  * You can file issues at https://github.com/fjulian79/liblipo/issues
  */
 
-#include "lipo.hpp"
+#include <lipo/lipo.hpp>
 
 #include <string.h>
 #include <Arduino.h>
@@ -187,7 +187,6 @@ void LiPo::updateVref(void)
     VRefAdc = LIPO_VREFINT * __LL_ADC_DIGITAL_SCALE(LL_ADC_RESOLUTION_12B) / 
                     analogRead(AVREF);
 }
-
 
 void LiPo::update(void)
 {
