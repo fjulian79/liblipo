@@ -1,0 +1,17 @@
+{
+    "name": "liblipo",
+    "version": "1.0.0",
+    "keywords": "lipo, ADC, Arduino",
+    "description": "A class used to monitor lipo cell voltages measured by using a simple voltage divider and ADC channel per cell",
+    "license": "GPL-3.0",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/fjulian79/liblipo.git"
+    },
+    "frameworks": "arduino",
+    "platforms": 
+    [
+      "ststm32"
+    ]
+}
