@@ -46,3 +46,45 @@ The library needs infos on the voltage divider resistor values used in the hardw
 ![equation](https://latex.codecogs.com/svg.latex?CellScale%20=%20\frac{(R1+R2)*2^{LIPO\_DENOMINATOR}}{R2})
 
 Hence that this scale factor is only based on the resistor values and the denominator. It is not needed to care about converting ADC raw values to millivolts.
+
+## Example Code
+This is a small example which prints the voltage of the weakest cell along with
+the number of cells and the captured samples. It uses all the default values, so
+you might have to adopt the configuration for your particular setup.
+
+```C
+#include <Arduino.h>
+#include <stm32yyxx_ll_adc.h>
+#include <lipo/lipo.hpp>
+#include <stdint.h>
+
+BatteryParams_t params = {3128, 5609, 8771, 11460, 13718, 16984};
+LiPo lipo(&params);
+
+void setup()
+{
+    analogReadResolution(12);
+
+    Serial.begin(115200);
+    while (!Serial); 
+}
+
+void loop()
+{
+    static uint32_t lastTick = 0;
+    uint32_t tick = millis();
+
+    lipo.task(tick);
+
+    if (tick - lastTick >= 250)
+    {
+        lastTick = tick;
+
+        uint32_t mV = lipo.getMinCell();
+        uint16_t samples = lipo.getSamples();
+        uint8_t cells = lipo.getNumCells();
+
+        Serial.printf("%lu,%luV (%u/%u)\n", mV/1000, mV%1000), cells, samples;
+    }
+}
+```
